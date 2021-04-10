@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quel caractère ?</title>
+    <script type="text/javascript">
+        const difficultLetters = {
+            "1": "1: un",
+            "l": "L - Lima minuscule",
+            "|": "pipe",
+            "I": "i - India majuscule",
+            "w": "W - Whiskey minuscule (peut être confondu avec 'vv' (deux V - Victor minuscules)",
+            "W": "w - Whiskey majuscule (peut être confondu avec 'VV' (deux v - Victor majuscules)",
+            "0": "zéro",
+            "O": "o - Oscar majuscule",
+            "o": "O - Oscar minuscule",
+        };
+        document.addEventListener('DOMContentLoaded', function initInputWatcher() {
+            function handleInput(e) {
+                const { currentTarget } = e;
+                if (!currentTarget) {
+                    return;
+                }
+                document.getElementById("result").innerHTML = [...currentTarget.value].map(char => {
+                    const difficult = difficultLetters[char];
+                    if (!difficult) {
+                        return `<span class="simple">${char}</span>`;
+                    } else {
+                        return `<span class="difficult">${char}</span> <span class="explanation">${difficult}</span>`;
+                    }
+                }).join('<br/>')
+            }
+
+            const input = document.querySelector("#text");
+            input.addEventListener('change', handleInput);
+            input.addEventListener('paste', handleInput);
+            input.addEventListener('keyup', handleInput);
+        }, false);
+    </script>
+    <style>
+        #result > .simple {
+            color: gray;
+        }
+
+        #result > .difficult {
+            color: red;
+        }
+
+        #result > .explanation {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label for="text">Coller / écrire du texte</label>
+    <input type="text" id="text" name="text"/>
+</div>
+<div>Résultat</div>
+<div id="result">
+</div>
+</body>
+</html>
